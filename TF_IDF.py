@@ -6,7 +6,7 @@ from decimal import Decimal
 class TF_IDF(object):
 
     def __init__(self, dataFile: str):
-        # Ingesting file.
+        # Ingesting file. Storing {doc_id: {term: term_count, ...}, ... }
         with open(dataFile, 'r') as csv_file:
             dict_reader: csv.DictReader = csv.DictReader(csv_file)
             self.documents: dict = {}  # dict of dicts
@@ -19,7 +19,11 @@ class TF_IDF(object):
                 if '' in word_occurrences:
                     word_occurrences.pop('')
 
-    def _count_words(self, word_dict: dict, words: list):
+    def _count_words(self, word_dict: dict, words: list[str]):
+        """
+            Tallies appearance of each string in words.
+            word_dict: {doc_id: term_count, ...}
+        """
         for word in words:
             if word in word_dict:
                 word_dict[word] += 1
