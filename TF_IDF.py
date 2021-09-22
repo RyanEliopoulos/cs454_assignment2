@@ -60,7 +60,7 @@ class TF_IDF(object):
             if term in self.global_index:
                 term_posts: list = self.global_index[term]
                 relevant_ids += [docpair[0] for docpair in term_posts]
-        return relevant_ids
+        return set(relevant_ids)
 
     def relevance(self, d: str, Q: str) -> Decimal:
         """
