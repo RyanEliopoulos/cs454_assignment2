@@ -16,6 +16,8 @@ class TF_IDF(object):
                 temp_dict: dict = {}
                 doc_id: str = row['id']
                 terms: list = row['description'].split(' ')
+                if '' in terms:
+                    terms.remove('')
                 # Tallying terms
                 total_count: int = 0
                 for term in terms:
@@ -93,16 +95,6 @@ class TF_IDF(object):
             Q: query term
             k: number of results to list
         """
-        # results: list = []
-        # for key in self.documents:
-        #     score: Decimal = self.relevance(key, Q)
-        #     if score > 0:
-        #         results.append((key, score))
-        # results.sort(key=lambda pair: pair[1])
-        # results.reverse()
-        # return results[:5]
-
-
         results: list = []
         relevant_docids = self._relevant_docids(Q)
         for docid in relevant_docids:
