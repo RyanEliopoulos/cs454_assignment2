@@ -5,6 +5,7 @@ from decimal import Decimal
 
 class TF_IDF(object):
 
+    """ TF_IDF functionality as described in class. """
     def __init__(self, dataFile: str):
         # Ingesting file.
         self.global_index: dict = {}
@@ -35,7 +36,7 @@ class TF_IDF(object):
                       doc_id: str,
                       term: str,
                       occurences: int):
-
+        """ __init__ helper function. """
         if term in self.global_index:
             # Managing posting order
             posting_list: list = self.global_index[term]
@@ -48,6 +49,18 @@ class TF_IDF(object):
                     self.global_index[term].append((doc_id, occurences))
         else:
             self.global_index[term] = [(doc_id, occurences)]
+
+    def _relevant_docids(self, Q: str):
+        """ tfidf helper function.
+            Returns a list of document IDs containing one or more terms in Q
+        """
+        terms = Q.split(' ')
+        relevant_ids: list = []
+        for term in terms:
+            if term in self.global_index:
+                term_posts: list = self.global_index[term]
+                relevant_ids += [docpair[0] for docpair in term_posts]
+        return relevant_ids
 
     def relevance(self, d: str, Q: str) -> Decimal:
         """
@@ -104,14 +117,4 @@ class TF_IDF(object):
         results.sort(key=lambda pair: pair[1])
         results.reverse()
         return results[:k]
-
-    def _relevant_docids(self, Q: str):
-        """ Returns a list of document IDs containg one or more terms in Q """
-        terms = Q.split(' ')
-        relevant_ids: list = []
-        for term in terms:
-            if term in self.global_index:
-                term_posts: list = self.global_index[term]
-                relevant_ids = [docpair[0] for docpair in term_posts]
-        return relevant_ids
 
