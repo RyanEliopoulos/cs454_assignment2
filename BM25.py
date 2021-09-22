@@ -160,7 +160,7 @@ class BM_25(object):
         relevant_docids: set = self._relevant_docids(query)
         results: list = []
         for docid in relevant_docids:
-            score = self._score(docid, query)
+            score = float(self._score(docid, query))
             if score > 0:
                 results.append((docid, score))
 

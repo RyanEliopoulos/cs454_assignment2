@@ -111,7 +111,7 @@ class TF_IDF(object):
         results: list = []
         relevant_docids = self._relevant_docids(Q)
         for docid in relevant_docids:
-            score: Decimal = self.relevance(docid, Q)
+            score: float = float(self.relevance(docid, Q))
             if score > 0:
                 results.append((docid, score))
         results.sort(key=lambda pair: pair[1])
